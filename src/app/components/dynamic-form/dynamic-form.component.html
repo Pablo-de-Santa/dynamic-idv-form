@@ -1,0 +1,80 @@
+<div id="particlesContainer" class="particles"></div>
+<div class="container" *ngIf="!showSummary">
+  <form (ngSubmit)="onSubmit($event)" class="form" [formGroup]="idvForm">
+    <h1>Select Bank and Provide Information</h1>
+    <div>
+      <mat-form-field appearance="fill" class="inputGroup">
+        <mat-label>Select Bank</mat-label>
+        <mat-select formControlName="selectedBank" (selectionChange)="onBankChange()" panelClass="bankSelectPanel" disableRipple>
+          <mat-option class="searchField">
+            <mat-form-field appearance="fill" floatLabel="always">
+              <mat-label>Search Banks</mat-label>
+              <input matInput [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" placeholder="Type to search..." (input)="onSearchInput($event)" (click)="$event.stopPropagation()" />
+            </mat-form-field>
+          </mat-option>
+          <cdk-virtual-scroll-viewport itemSize="50" class="virtualScroll">
+            <mat-option *cdkVirtualFor="let bank of filteredBankNames" [value]="bank">
+              {{ bank }}
+            </mat-option>
+          </cdk-virtual-scroll-viewport>
+        </mat-select>
+        <mat-error *ngIf="idvForm.get('selectedBank')?.invalid"> Bank selection is mandatory. </mat-error>
+      </mat-form-field>
+    </div>
+    <div *ngIf="idvForm.get('selectedBank')?.value">
+      <h3>Bank Information</h3>
+      <div *ngFor="let identity of getKeys(formConfig[idvForm.get('selectedBank')?.value])">
+        <h4>{{ identity }}</h4>
+        <div *ngIf="getFormGroup(idvForm.get(identity)) as identityGroup" [formGroup]="identityGroup">
+          <div *ngFor="let field of formConfig[idvForm.get('selectedBank')?.value][identity]">
+            <mat-form-field appearance="fill">
+              <mat-label>{{ field.label }}</mat-label>
+              <input *ngIf="!field.validation.includes('past-date') && !field.validation.includes('future-date')" matInput [formControlName]="field.label" placeholder="{{ field.label }}" />
+              <input *ngIf="field.validation.includes('past-date') || field.validation.includes('future-date')" matInput [matDatepicker]="datePicker" [formControlName]="field.label" placeholder="{{ field.label }}" readonly (focus)="datePicker.open()" />
+              <mat-datepicker-toggle *ngIf="field.validation.includes('past-date') || field.validation.includes('future-date')" matSuffix [for]="datePicker"></mat-datepicker-toggle>
+              <mat-datepicker #datePicker></mat-datepicker>
+              <mat-error *ngIf="identityGroup.get(field.label)?.hasError('required')">
+                {{ field.label }} is required
+              </mat-error>
+              <mat-error *ngIf="identityGroup.get(field.label)?.hasError('maxlength')">
+                {{ field.label }} must be at most {{ field.maxlengthValue }} characters.
+              </mat-error>
+              <mat-error *ngIf="identityGroup.get(field.label)?.hasError('digits')">
+                {{ field.label }} must contain only numbers.
+              </mat-error>
+              <mat-error *ngIf="identityGroup.get(field.label)?.hasError('invalidFormat')">
+                {{ field.label }} must contain only digits and the '-' character.
+              </mat-error>
+              <mat-error *ngIf="identityGroup.get(field.label)?.hasError('pastDate')">
+                {{ field.label }} must be in the past.
+              </mat-error>
+              <mat-error *ngIf="identityGroup.get(field.label)?.hasError('futureDate')">
+                {{ field.label }} must be in the future.
+              </mat-error>
+              <mat-error *ngIf="identityGroup.get(field.label)?.hasError('invalidProvince')">
+                {{ field.label }} must be a valid Canadian province.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="inputGroup">
+      <button mat-raised-button type="submit" class="btn" [disabled]="isSubmitting"> Submit </button>
+    </div>
+  </form>
+</div>
+<div class="wrapSummary">
+  <div *ngIf="showSummary" class="summaryContainer">
+    <h1>Submission Summary</h1>
+    <h2>Bank Selected: {{ submittedData?.selectedBank }}</h2>
+    <div *ngFor="let identity of getKeys(formConfig[submittedData?.selectedBank])">
+      <h3>{{ identity }}</h3>
+      <ul>
+        <li *ngFor="let field of formConfig[submittedData?.selectedBank][identity]">
+          <strong>{{ field.label }}:</strong> {{ submittedData[identity]?.[field.label] || 'N/A' }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

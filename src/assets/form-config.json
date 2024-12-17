@@ -1,0 +1,48 @@
+{
+    "Bank1": {
+      "Driving License": [
+        { "label": "Name", "order": 1, "required": true, "validation": "maxlength=100" },
+        { "label": "License Number", "order": 2, "required": true, "validation": "maxlength=100|digits|special=-" },
+        { "label": "Issued Date", "order": 3, "required": true, "validation": "past-date" },
+        { "label": "Expiry Date", "order": 4, "required": false, "validation": "future-date" }
+      ],
+      "Candian Passport": [
+        { "label": "Name", "order": 1, "required": true, "validation": "maxlength=100" },
+        { "label": "Passport Number", "order": 2, "required": true, "validation": "maxlength=100|digits|special=-" },
+        { "label": "Issued Date", "order": 3, "required": true, "validation": "past-date" },
+        { "label": "Expiry Date", "order": 4, "required": false, "validation": "future-date" },
+        { "label": "Issued Location", "order": 5, "required": false, "validation": "maxlength=100" }
+      ]
+    },
+    "Bank2": {
+      "Driving License": [
+        { "label": "Name", "order": 1, "required": true, "validation": "maxlength=100" },
+        { "label": "License Number", "order": 2, "required": true, "validation": "maxlength=100|digits|special=-" },
+        { "label": "Issued Date", "order": 3, "required": true, "validation": "past-date" },
+        { "label": "Expiry Date", "order": 4, "required": false, "validation": "future-date" }
+      ],
+      "Health Card": [
+        { "label": "Name", "order": 1, "required": true, "validation": "maxlength=100" },
+        { "label": "Card Number", "order": 2, "required": true, "validation": "maxlength=100|digits|special=-" },
+        { "label": "Issued Date", "order": 3, "required": true, "validation": "past-date" },
+        { "label": "Expiry Date", "order": 4, "required": false, "validation": "future-date" },
+        { "label": "Province", "order": 5, "required": true, "validation": "valid-province" }
+      ]
+    },
+    "Bank3": {
+      "Health Card": [
+        { "label": "Name", "order": 1, "required": true, "validation": "maxlength=100" },
+        { "label": "Card Number", "order": 2, "required": true, "validation": "maxlength=100|digits|special=-" },
+        { "label": "Issued Date", "order": 3, "required": true, "validation": "past-date" },
+        { "label": "Expiry Date", "order": 4, "required": false, "validation": "future-date" }
+      ],
+      "Candian Passport": [
+        { "label": "Name", "order": 1, "required": true, "validation": "maxlength=100" },
+        { "label": "Passport Number", "order": 2, "required": true, "validation": "maxlength=100|digits|special=-" },
+        { "label": "Issued Date", "order": 3, "required": true, "validation": "past-date" },
+        { "label": "Expiry Date", "order": 4, "required": false, "validation": "future-date" },
+        { "label": "Issued Location", "order": 5, "required": false, "validation": "maxlength=100" }
+      ]
+    }
+  }
+  
